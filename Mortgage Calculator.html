@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Mortgage Calculator</title>
+    <style>
+        /* --- Basic Styling (CSS) --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 3rem 1rem;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .calculator-container {
+            background-color: #ffffff;
+            padding: 2rem 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 520px;
+        }
+        h1, h2 {
+            color: #1a253c;
+            text-align: center;
+            margin: 0 0 1.5rem 0;
+        }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #5a677d;
+            font-weight: 600;
+        }
+        .input-group {
+            display: flex;
+        }
+        .input-group span {
+            padding: 0 1rem;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-right: none;
+            border-radius: 6px 0 0 6px;
+            font-weight: 600;
+            color: #495057;
+            height: 48px;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            height: 48px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .input-group input {
+             border-radius: 0 6px 6px 0;
+        }
+        .side-by-side-group {
+            display: flex;
+            gap: 15px;
+        }
+        .side-by-side-group .form-group {
+            flex: 1;
+        }
+        input:focus {
+            outline: none;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        input[disabled] {
+            background-color: #f0f3f5;
+            cursor: not-allowed;
+            color: #1a253c;
+            font-weight: 600;
+        }
+        button {
+            width: 100%;
+            padding: 0.9rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #results {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e9ecef;
+        }
+        #estMonthlyPayment {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .summary p {
+            display: flex;
+            justify-content: space-between;
+            margin: 0;
+            font-size: 1rem;
+            color: #5a677d;
+            padding: 0.75rem 0.25rem;
+        }
+        .summary p:not(:last-child) {
+            border-bottom: 1px solid #f0f3f5;
+        }
+        .summary p span:last-child {
+            font-weight: 600;
+            color: #1a253c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-container">
+        <h1>Mortgage Calculator</h1>
+        <form id="mortgage-form">
+            
+            <div class="side-by-side-group">
+                <div class="form-group">
+                    <label for="homePrice">Home Price</label>
+                    <div class="input-group">
+                        <span>$</span>
+                        <input type="number" id="homePrice" value="500000" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="downPaymentPercent">Down Payment</label>
+                    <div class="input-group">
+                         <input type="number" id="downPaymentPercent" value="20" required>
+                         <span>%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="loanAmount">Loan Amount</label>
+                <div class="input-group">
+                    <span>$</span>
+                    <input type="number" id="loanAmount" disabled>
+                </div>
+            </div>
+
+            <div class="side-by-side-group">
+                 <div class="form-group">
+                    <label for="interestRate">Interest Rate (%)</label>
+                    <input type="number" id="interestRate" step="0.001" value="5.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="loanTerm">Loan Term (Years)</label>
+                    <input type="number" id="loanTerm" value="30" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="startDate">Loan Repayment Start Date</label>
+                <input type="date" id="startDate" required>
+            </div>
+            
+             <h2>Additional Monthly Costs</h2>
+             <div class="side-by-side-group">
+                <div class="form-group">
+                    <label for="extraPayments">Extra Payments</label>
+                    <div class="input-group">
+                        <span>$</span>
+                        <input type="number" id="extraPayments" placeholder="0">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="hoa">HOA</label>
+                    <div class="input-group">
+                        <span>$</span>
+                        <input type="number" id="hoa" placeholder="0">
+                    </div>
+                </div>
+            </div>
+             <div class="side-by-side-group">
+                <div class="form-group">
+                    <label for="pmi">Est. PMI</label>
+                    <div class="input-group">
+                        <span>$</span>
+                        <input type="number" id="pmi" placeholder="0">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="otherCosts">Taxes, Insurance, etc.</label>
+                    <div class="input-group">
+                        <span>$</span>
+                        <input type="number" id="otherCosts" placeholder="0">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit">Calculate</button>
+        </form>
+
+        <div id="results" style="display: none;">
+            <h2>Estimated Monthly Payment</h2>
+            <div id="estMonthlyPayment"></div>
+            <div class="summary">
+                 <p><span>Scheduled P&I Payment:</span> <span id="scheduledPayment"></span></p>
+                 <p><span>Scheduled Number of Payments:</span> <span id="scheduledNumPayments"></span></p>
+                 <p><span>Actual Number of Payments:</span> <span id="actualNumPayments"></span></p>
+                 <p><span>Last Payment Date:</span> <span id="lastPaymentDate"></span></p>
+                 <p><span>Years Saved Off Loan:</span> <span id="yearsSaved"></span></p>
+                 <p><span>Total Early Payments:</span> <span id="totalEarlyPayments"></span></p>
+                 <p><span>Total Interest Paid:</span> <span id="totalInterest"></span></p>
+                 <p><span>Total Payment at End of Loan:</span> <span id="totalPayment"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const homePriceEl = document.getElementById('homePrice');
+        const downPaymentPercentEl = document.getElementById('downPaymentPercent');
+        const loanAmountEl = document.getElementById('loanAmount');
+        const startDateEl = document.getElementById('startDate');
+        
+        function updateLoanAmount() {
+            const homePrice = parseFloat(homePriceEl.value) || 0;
+            const percent = parseFloat(downPaymentPercentEl.value) || 0;
+            const downPaymentAmount = homePrice * (percent / 100);
+            const loanAmount = homePrice - downPaymentAmount;
+            loanAmountEl.value = loanAmount > 0 ? loanAmount.toFixed(2) : '';
+        }
+        
+        document.addEventListener('DOMContentLoaded', (event) => {
+            startDateEl.valueAsDate = new Date();
+            updateLoanAmount();
+        });
+
+        homePriceEl.addEventListener('input', updateLoanAmount);
+        downPaymentPercentEl.addEventListener('input', updateLoanAmount);
+
+        document.getElementById('mortgage-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // 1. GET ALL INPUTS
+            const loanAmount = parseFloat(loanAmountEl.value);
+            const annualInterestRate = parseFloat(document.getElementById('interestRate').value);
+            const loanTermInYears = parseInt(document.getElementById('loanTerm').value);
+            const startDate = new Date(document.getElementById('startDate').value + 'T00:00:00');
+            const extraPayment = parseFloat(document.getElementById('extraPayments').value) || 0;
+            const hoa = parseFloat(document.getElementById('hoa').value) || 0;
+            const pmi = parseFloat(document.getElementById('pmi').value) || 0;
+            const otherCosts = parseFloat(document.getElementById('otherCosts').value) || 0;
+
+            if (isNaN(loanAmount) || isNaN(annualInterestRate) || isNaN(loanTermInYears) || loanAmount <= 0) {
+                alert("Please ensure Home Price, Down Payment, Interest Rate, and Loan Term are valid.");
+                return;
+            }
+
+            // 2. PREPARE FOR CALCULATION
+            const monthlyInterestRate = annualInterestRate / 100 / 12;
+            const scheduledNumPayments = loanTermInYears * 12;
+            
+            const numerator = monthlyInterestRate > 0 ? monthlyInterestRate * Math.pow(1 + monthlyInterestRate, scheduledNumPayments) : 1;
+            const denominator = monthlyInterestRate > 0 ? Math.pow(1 + monthlyInterestRate, scheduledNumPayments) - 1 : scheduledNumPayments;
+            
+            if (denominator <= 0 && monthlyInterestRate > 0) {
+                alert("Cannot calculate mortgage. Please check interest rate and loan term.");
+                return;
+            }
+
+            const scheduledPayment = monthlyInterestRate > 0 ? loanAmount * (numerator / denominator) : loanAmount / scheduledNumPayments;
+            const estMonthlyPayment = scheduledPayment +extraPayment + hoa + pmi + otherCosts;
+            
+            // DECLARE result variables
+            let actualNumPayments, totalInterestPaid, totalEarlyPayments;
+
+            // 3. CALCULATE BASED ON EXTRA PAYMENTS
+            if (extraPayment > 0) {
+                // SIMULATE LOAN with extra payments
+                let balance = loanAmount;
+                let currentActualPayments = 0;
+                let currentTotalInterest = 0;
+                let currentTotalExtra = 0;
+
+                while (balance > 0) {
+                    currentActualPayments++;
+                    const interestForMonth = balance * monthlyInterestRate;
+
+                    // This is the total amount applied to the loan this month
+                    const principalPaid = scheduledPayment - interestForMonth;
+                    const totalPaidThisMonth = principalPaid + extraPayment;
+
+                    if (balance <= totalPaidThisMonth) {
+                        // This is the last payment
+                        currentTotalInterest += interestForMonth;
+                        // The only extra paid is the amount over the scheduled principal needed to finish
+                        const finalPrincipal = balance;
+                        const finalExtra = finalPrincipal - principalPaid;
+                         if (finalExtra > 0) {
+                            currentTotalExtra += finalExtra;
+                        }
+                        balance = 0; // Loan is paid off
+                    } else {
+                        // Normal payment
+                        balance -= totalPaidThisMonth;
+                        currentTotalInterest += interestForMonth;
+                        currentTotalExtra += extraPayment;
+                    }
+                }
+                actualNumPayments = currentActualPayments;
+                totalInterestPaid = currentTotalInterest;
+                totalEarlyPayments = currentTotalExtra;
+            } else {
+                // CALCULATE NORMALLY without extra payments
+                actualNumPayments = scheduledNumPayments;
+                totalInterestPaid = (scheduledPayment * scheduledNumPayments) - loanAmount;
+                totalEarlyPayments = 0;
+            }
+
+            // 4. CALCULATE FINAL OUTPUTS
+            const yearsSaved = (scheduledNumPayments - actualNumPayments) / 12;
+            const lastPaymentDate = new Date(startDate);
+            // setMonth is 0-indexed, so we add months and subtract 1 if needed, but adding months directly works
+            lastPaymentDate.setMonth(lastPaymentDate.getMonth() + actualNumPayments);
+            const totalPayment = loanAmount + totalInterestPaid;
+            
+            // 5. DISPLAY THE RESULTS
+            const currency = { style: 'currency', currency: 'USD' };
+            const dateFmt = { year: 'numeric', month: 'long' };
+
+            document.getElementById('estMonthlyPayment').textContent = estMonthlyPayment.toLocaleString('en-US', currency);
+            document.getElementById('scheduledPayment').textContent = scheduledPayment.toLocaleString('en-US', currency);
+            document.getElementById('scheduledNumPayments').textContent = scheduledNumPayments;
+            document.getElementById('actualNumPayments').textContent = actualNumPayments;
+            document.getElementById('lastPaymentDate').textContent = lastPaymentDate.toLocaleDateString('en-US', dateFmt);
+            document.getElementById('yearsSaved').textContent = `${yearsSaved.toFixed(1)} years`;
+            document.getElementById('totalEarlyPayments').textContent = totalEarlyPayments.toLocaleString('en-US', currency);
+            document.getElementById('totalInterest').textContent = totalInterestPaid.toLocaleString('en-US', currency);
+            document.getElementById('totalPayment').textContent = totalPayment.toLocaleString('en-US', currency);
+
+            document.getElementById('results').style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>
