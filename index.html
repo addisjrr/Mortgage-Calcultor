@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAB Mortgage Calculator</title>
+    <title>LAB Calculator</title>
     <style>
         /* --- Basic Styling (CSS) --- */
         body {
@@ -144,7 +144,7 @@
 
         <img src="Logo.png" alt="LAB Company Logo" class="logo">
 
-        <h1>Mortgage Calculator</h1>
+        <h1>PAYMENT CALCULATOR</h1>
         <form id="mortgage-form">
             
             <div class="side-by-side-group">
@@ -222,6 +222,26 @@
                 </div>
             </div>
 
+
+
+             <div class="side-by-side-group">
+                <div class="form-group">
+                    <label for="car">Est. Car Payment</label>
+                    <div class="input-group">
+                        <span>$</span>
+                        <input type="number" id="car" placeholder="0">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="grocery">Est. Groceries</label>
+                    <div class="input-group">
+                        <span>$</span>
+                        <input type="number" id="grocery" placeholder="0">
+                    </div>
+                </div>
+            </div>
+
+
             <button type="submit">Calculate</button>
         </form>
 
@@ -274,6 +294,8 @@
             const extraPayment = parseFloat(document.getElementById('extraPayments').value) || 0;
             const hoa = parseFloat(document.getElementById('hoa').value) || 0;
             const pmi = parseFloat(document.getElementById('pmi').value) || 0;
+            const car = parseFloat(document.getElementById('car').value) || 0;
+            const grocery = parseFloat(document.getElementById('grocery').value) || 0;
             const otherCosts = parseFloat(document.getElementById('otherCosts').value) || 0;
 
             if (isNaN(loanAmount) || isNaN(annualInterestRate) || isNaN(loanTermInYears) || loanAmount <= 0) {
@@ -294,7 +316,7 @@
             }
 
             const scheduledPayment = monthlyInterestRate > 0 ? loanAmount * (numerator / denominator) : loanAmount / scheduledNumPayments;
-            const estMonthlyPayment = scheduledPayment +extraPayment + hoa + pmi + otherCosts;
+            const estMonthlyPayment = scheduledPayment + extraPayment + hoa + pmi + otherCosts + car + grocery;
             
             // DECLARE result variables
             let actualNumPayments, totalInterestPaid, totalEarlyPayments;
