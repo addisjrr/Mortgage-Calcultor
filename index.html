@@ -24,6 +24,14 @@
             width: 100%;
             max-width: 520px;
         }
+        
+        /* --- STYLE FOR THE LOGO --- */
+        .logo {
+            display: block;
+            width: 120px; /* Adjust size as needed */
+            margin: 0 auto 1.5rem; /* Centers the logo and adds space below */
+        }
+
         h1, h2 {
             color: #ffffff;
             text-align: center;
@@ -133,7 +141,10 @@
 <body>
 
     <div class="calculator-container">
-        <h1>LAB Mortgage Calculator</h1>
+
+        <img src="Logo.png" alt="LAB Company Logo" class="logo">
+
+        <h1>Mortgage Calculator</h1>
         <form id="mortgage-form">
             
             <div class="side-by-side-group">
@@ -218,7 +229,7 @@
             <h2>Estimated Monthly Payment</h2>
             <div id="estMonthlyPayment"></div>
             <div class="summary">
-                 <p><span>Scheduled P&I Payment:</span> <span id="scheduledPayment"></span></p>
+                 <p><span>Scheduled Payment:</span> <span id="scheduledPayment"></span></p>
                  <p><span>Scheduled Number of Payments:</span> <span id="scheduledNumPayments"></span></p>
                  <p><span>Actual Number of Payments:</span> <span id="actualNumPayments"></span></p>
                  <p><span>Last Payment Date:</span> <span id="lastPaymentDate"></span></p>
@@ -311,7 +322,7 @@
                         const finalPrincipal = balance;
                         const finalExtra = finalPrincipal - principalPaid;
                          if (finalExtra > 0) {
-                            currentTotalExtra += finalExtra;
+                             currentTotalExtra += finalExtra;
                         }
                         balance = 0; // Loan is paid off
                     } else {
@@ -358,4 +369,3 @@
 
 </body>
 </html>
-
